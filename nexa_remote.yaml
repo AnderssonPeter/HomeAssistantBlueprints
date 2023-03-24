@@ -102,4 +102,4 @@ action:
       - conditions:
           - condition: template
             value_template: "{{ trigger.event.data.id_string.endswith(':3') and trigger.event.data['values'].Command == 'Off' }}"
-        sequence: !input 3_on_action
+        sequence: !input 3_off_action
