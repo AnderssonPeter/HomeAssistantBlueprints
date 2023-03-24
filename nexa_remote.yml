@@ -1,0 +1,103 @@
+blueprint:
+  name: Nexa Remote
+  description: Blueprint for Nexa PET-910
+  domain: automation
+  author: Peter Andersson
+  input:
+    remote_id:
+      name: Remote id
+      description: Example "1599e6a"
+    all_off_action:
+      name: All off action
+      description: Action when all off is pressed
+      default: []
+      selector:
+        action:
+    1_on_action:
+      name: 1 on action
+      description: Action when 1 on is pressed
+      default: []
+      selector:
+        action:
+    1_off_action:
+      name: 1 off action
+      description: Action when 1 off is pressed
+      default: []
+      selector:
+        action:
+    2_on_action:
+      name: 2 on action
+      description: Action when 2 on is pressed
+      default: []
+      selector:
+        action:
+    2_off_action:
+      name: 2 off action
+      description: Action when 2 off is pressed
+      default: []
+      selector:
+        action:
+    3_on_action:
+      name: 3 on action
+      description: Action when 3 on is pressed
+      default: []
+      selector:
+        action:
+    3_off_action:
+      name: 3 off action
+      description: Action when 3 off is pressed
+      default: []
+      selector:
+        action:
+
+variables:
+  remote_id: !input remote_id
+  all_off_action: !input all_off_action
+  1_on_action: !input 1_on_action
+  1_off_action: !input 1_off_action
+  2_on_action: !input 2_on_action
+  2_off_action: !input 2_off_action
+  3_on_action: !input 3_on_action
+  3_off_action: !input 3_off_action
+
+trigger:
+  - platform: event
+    event_type: rfxtrx_event
+
+condition:
+  - condition: template
+    value_template: "{{ trigger.event.data.id_string.startswith( states(remote_id) + ':') }}"
+
+mode: restart
+max_exceeded: silent
+
+action:
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data['values'].Command == 'Group off' }}"
+        sequence: !input all_off_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.id_string.endswith(':1') and trigger.event.data['values'].Command == 'On' }}"
+        sequence: !input 1_on_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.id_string.endswith(':1') and trigger.event.data['values'].Command == 'Off' }}"
+        sequence: !input 1_off_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.id_string.endswith(':2') and trigger.event.data['values'].Command == 'On' }}"
+        sequence: !input 2_on_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.id_string.endswith(':2') and trigger.event.data['values'].Command == 'Off' }}"
+        sequence: !input 2_off_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.id_string.endswith(':3') and trigger.event.data['values'].Command == 'On' }}"
+        sequence: !input 3_on_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.id_string.endswith(':3') and trigger.event.data['values'].Command == 'Off' }}"
+        sequence: !input 3_on_action
