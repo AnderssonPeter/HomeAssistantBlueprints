@@ -7,6 +7,8 @@ blueprint:
     remote_id:
       name: Remote id
       description: Example "1599e6a"
+      selector:
+        string:
     all_off_action:
       name: All off action
       description: Action when all off is pressed
