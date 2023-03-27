@@ -6,7 +6,7 @@ blueprint:
   input:
     remote_id:
       name: Remote id
-      description: To get the remote id, go to "Developer tools" -> "Events" event to subscribe to "rfxtrx_event" then press listen and push a button on your remote, you find the remote id under id_string (remove : and the number after it). Example "1599e6a"
+      description: 'To get the remote id, go to "Developer tools" -> "Events" event to subscribe to "rfxtrx_event" then press listen and push a button on your remote, you find the remote id under id_string (remove : and the number after it). Example "1599e6a"'
       selector:
         text:
     all_off_action:
