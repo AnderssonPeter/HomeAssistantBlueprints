@@ -31,7 +31,7 @@ blueprint:
         action:
     left_brighten_stop_action:
       name: left brighten stop action
-      description:
+      description: Action when left brighten stops
       default: []
       selector:
         action:
@@ -43,7 +43,7 @@ blueprint:
         action:
     left_darken_stop_action:
       name: left darken stop action
-      description:
+      description: Action when left darken stops
       default: []
       selector:
         action:
@@ -79,7 +79,7 @@ blueprint:
         action:
     right_brighten_stop_action:
       name: right brighten stop action
-      description:
+      description: Action when right brighten stops
       default: []
       selector:
         action:
@@ -91,7 +91,7 @@ blueprint:
         action:
     right_darken_stop_action:
       name: right darken stop action
-      description:
+      description: Action when right darken stops
       default: []
       selector:
         action:
