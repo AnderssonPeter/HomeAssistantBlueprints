@@ -4,7 +4,7 @@ blueprint:
   domain: automation
   author: Peter Andersson
   input:
-    remote_id:
+    device_id:
       name: Device id
       description: |
         To get the device id, go to "Developer tools" -> "Events" event to subscribe to "zwave_js_value_notification" then press listen and push a button on your wall controller, you find the remote id under device_id.
@@ -59,13 +59,13 @@ blueprint:
       default: []
       selector:
         action:
-    right_on:
+    right_on_action:
       name: right on action
       description: Action when right on is pressed
       default: []
       selector:
         action:
-    right_off:
+    right_off_action:
       name: right off action
       description: Action when right off is pressed
       default: []
