@@ -1,0 +1,190 @@
+blueprint:
+  name: Z-Wave.ME Secure Wall Controller
+  description: Blueprint for Z-Wave Secure Wall Controller
+  domain: automation
+  author: Peter Andersson
+  input:
+    remote_id:
+      name: Device id
+      description: |
+        To get the device id, go to "Developer tools" -> "Events" event to subscribe to "zwave_js_value_notification" then press listen and push a button on your wall controller, you find the remote id under device_id.
+        Ensure that Group A, B, C and D are set to Send Scenes
+      selector:
+        text:
+    left_on_action:
+      name: left on action
+      description: Action when left on is pressed
+      default: []
+      selector:
+        action:
+    left_off_action:
+      name: left off action
+      description: Action when left off is pressed
+      default: []
+      selector:
+        action:
+    left_brighten_start_action:
+      name: left brighten start action
+      description: Action when left brighten starts
+      default: []
+      selector:
+        action:
+    left_brighten_stop_action:
+      name: left brighten stop action
+      description:
+      default: []
+      selector:
+        action:
+    left_darken_start_action:
+      name: left darken start action
+      description: Action when left darken starts
+      default: []
+      selector:
+        action:
+    left_darken_stop_action:
+      name: left darken stop action
+      description:
+      default: []
+      selector:
+        action:
+    left_double_tap_on_action:
+      name: left double tap on action
+      description: Action when left double tap on is pressed
+      default: []
+      selector:
+        action:
+    left_double_tap_off_action:
+      name: left double tap off action
+      description: Action when left double tap off is pressed
+      default: []
+      selector:
+        action:
+    right_on:
+      name: right on action
+      description: Action when right on is pressed
+      default: []
+      selector:
+        action:
+    right_off:
+      name: right off action
+      description: Action when right off is pressed
+      default: []
+      selector:
+        action:
+    right_brighten_start_action:
+      name: right brighten start action
+      description: Action when right brighten starts
+      default: []
+      selector:
+        action:
+    right_brighten_stop_action:
+      name: right brighten stop action
+      description:
+      default: []
+      selector:
+        action:
+    right_darken_start_action:
+      name: right darken start action
+      description: Action when right darken starts
+      default: []
+      selector:
+        action:
+    right_darken_stop_action:
+      name: right darken stop action
+      description:
+      default: []
+      selector:
+        action:
+    right_double_tap_on_action:
+      name: right double tap on action
+      description: Action when right double tap on is pressed
+      default: []
+      selector:
+        action:
+    right_double_tap_off_action:
+      name: right double tap off action
+      description: Action when right double tap off is pressed
+      default: []
+      selector:
+        action:
+
+variables:
+  device_id: !input device_id
+
+trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+
+condition:
+  - condition: template
+    value_template: "{{ trigger.event.data.device_id == device_id }}"
+
+mode: restart
+max_exceeded: silent
+
+action:
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.value == 11 }}"
+        sequence: !input left_on_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.value == 12 }}"
+        sequence: !input left_off_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.value == 13 }}"
+        sequence: !input left_brighten_start_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.value == 15 }}"
+        sequence: !input left_brighten_stop_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.value == 14 }}"
+        sequence: !input left_darken_start_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.value == 16 }}"
+        sequence: !input left_darken_stop_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.value == 31 }}"
+        sequence: !input left_double_tap_on_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.value == 32 }}"
+        sequence: !input left_double_tap_off_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.value == 21 }}"
+        sequence: !input right_on_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.value == 22 }}"
+        sequence: !input right_off_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.value == 23 }}"
+        sequence: !input right_brighten_start_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.value == 25 }}"
+        sequence: !input right_brighten_stop_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.value == 24 }}"
+        sequence: !input right_darken_start_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.value == 26 }}"
+        sequence: !input right_darken_stop_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.value == 41 }}"
+        sequence: !input right_double_tap_on_action
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.value == 42 }}"
+        sequence: !input right_double_tap_off_action
