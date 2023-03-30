@@ -33,7 +33,6 @@ blueprint:
 trigger:
   - platform: state
     entity_id: !input person
-    from: not_home
     to: home
   - platform: time
     at: !input time
