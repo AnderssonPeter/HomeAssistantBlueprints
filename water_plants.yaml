@@ -1,0 +1,59 @@
+blueprint:
+  name: Water plants
+  description: Warning to water and fertilize plants
+  domain: automation
+  author: Peter Andersson
+  input:
+    time:
+      name: Time to test on
+      description: Test is run at configured time
+      default: '18:00:00'
+      selector:
+        time: {}
+    person:
+      name: Person to come home
+      description: Trigger when this person comes home
+      default: '18:00:00'
+      selector:
+        target:
+          entity:
+            domain: person
+    notify:
+      name: Device to notify
+      description: What device to notify
+      selector:
+        target:
+          entity:
+            domain: notify
+    exclude:
+      name: Excluded Sensors
+      description: Plant sensors (e.g. cactus) to exclude from detection. Only entities are supported, devices must be expanded!
+      default: {entity_id: []}
+      selector:
+        target:
+          entity:
+            domain: plant
+trigger:
+  - platform: state
+    entity_id: !input person
+    from: not_home
+    to: home
+  - platform: time
+    at: !input time
+
+condition:
+  - condition: and
+    conditions:
+      - condition: state
+        entity_id: !input person
+        state: home
+      - condition: template
+        value_template: "{{ states.plant | selectattr('attributes.problem', 'contains', 'moisture low') | rejectattr('entity_id', 'in', exclude) | list | count > 0 }}"
+action:
+  - service: !input notify
+    data:
+      message: >-
+        {% for plant in states.plant if ('moisture low' in plant.attributes.problem) %}
+          {{ plant.name }}: 💧{% if 'conductivity low' in plant.attributes.problem %}💩{% endif -%} {% if not loop.last %}, {% endif -%}
+        {% endfor %}
+mode: single
