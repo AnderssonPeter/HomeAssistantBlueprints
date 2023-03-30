@@ -23,7 +23,7 @@ blueprint:
       description: What device to notify
       selector:
         target:
-          entity:
+          service:
             domain: notify
     exclude:
       name: Excluded Sensors
