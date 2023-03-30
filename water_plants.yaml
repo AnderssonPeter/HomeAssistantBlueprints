@@ -13,11 +13,9 @@ blueprint:
     person:
       name: Person to come home
       description: Trigger when this person comes home
-      default: '18:00:00'
       selector:
-        target:
-          entity:
-            domain: person
+        entity:
+          domain: person
     notify_device:
       name: Device to notify
       description: What device to notify
