@@ -52,6 +52,6 @@ action:
     title: 🌱
     message: >-
       {% for plant in states.plant if ('moisture low' in plant.attributes.problem) %}
-        {{ plant.name }}: 💧{% if 'conductivity low' in plant.attributes.problem %}💩{% endif -%} {% if not loop.last %}, {% endif -%}
+        {{- plant.name }} 💧{% if 'conductivity low' in plant.attributes.problem %}💩{% endif -%} {% if not loop.last %}, {% endif -%}
       {% endfor %}
 mode: single
