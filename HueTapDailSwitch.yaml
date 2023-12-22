@@ -1,5 +1,5 @@
 blueprint:
-  name: Zigbee2MQTT - Hue Tap Dail Switch
+  name: 'Zigbee2MQTT - Hue Tap Dail Switch'
   description: |
     Control lights with a Philips Hue Tap Switch. Use the four buttons
     to control up to four light(s) with an on/off toggle. The dial can be used to
