@@ -78,39 +78,12 @@ variables:
     remote_button_3_single_press: !input remote_button_3_single_press
     remote_button_4_single_press: !input remote_button_4_single_press
 trigger:
-- platform: state
-  entity_id: !input button_sensor
-  to: button_1_press
-- platform: state
-  entity_id: !input button_sensor
-  to: button_2_press
-- platform: state
-  entity_id: !input button_sensor
-  to: button_3_press
-- platform: state
-  entity_id: !input button_sensor
-  to: button_4_press
-- platform: state
-  entity_id: !input button_sensor
-  to: dial_rotate_left_step
-- platform: state
-  entity_id: !input button_sensor
-  to: dial_rotate_left_slow
-- platform: state
-  entity_id: !input button_sensor
-  to: dial_rotate_left_fast
-- platform: state
-  entity_id: !input button_sensor
-  to: dial_rotate_right_step
-- platform: state
-  entity_id: !input button_sensor
-  to: dial_rotate_right_slow
-- platform: state
-  entity_id: !input button_sensor
-  to: dial_rotate_right_fast
+
+- platform: mqtt
+  topic: !input mqtt_topic
 action:
 - variables:
-    action: '{{ trigger.to_state.state }}'
+    action: '{{ trigger.payload }}'
 - choose:
   - conditions: '{{ action == ''button_1_press'' }}'
     sequence:
