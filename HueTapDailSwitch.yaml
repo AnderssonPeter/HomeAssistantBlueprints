@@ -78,7 +78,6 @@ variables:
     remote_button_3_single_press: !input remote_button_3_single_press
     remote_button_4_single_press: !input remote_button_4_single_press
 trigger:
-
 - platform: mqtt
   topic: !input mqtt_topic
 action:
