@@ -7,15 +7,11 @@ blueprint:
     source https://community.home-assistant.io/t/philips-hue-tap-dial-switch-zha/446636/114
   domain: automation
   input:
-    button_sensor:
-      name: Philips Hue Tap dial switch sensor entity
-      description: Sensor for Philips Hue Tap dial switch to use (Use sensor with
-        entity_id ends with _action)
+    mqtt_topic:
+      name: MQTT Topic
+      description: The mqtt topic that zigbee2mqtt publishes on (zigbee2mqtt/device_id/action)
       selector:
-        entity:
-          domain:
-          - sensor
-          multiple: false
+        text:
     remote_button_1_single_press:
       name: Button 1 Single Press
       description: The light(s) to control with first button
