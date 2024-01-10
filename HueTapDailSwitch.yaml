@@ -87,7 +87,7 @@ action:
 - choose:
   - conditions: '{{ action == ''button_1_press'' }}'
     sequence:
-    - service: light.turn_on
+    - service: light.toggle
       target: !input remote_button_1_single_press
       data:
         brightness: 50
@@ -98,10 +98,10 @@ action:
           target:
             entity_id: !input current_button
           data:
-            value: remote_button_1_single_press    
+            value: remote_button_1_single_press
   - conditions: '{{ action == ''button_2_press'' }}'
     sequence:
-    - service: light.turn_on
+    - service: light.toggle
       target: !input remote_button_2_single_press
       data:
         brightness: 50
@@ -115,7 +115,7 @@ action:
             value: remote_button_2_single_press
   - conditions: '{{ action == ''button_3_press'' }}'
     sequence:
-    - service: light.turn_on
+    - service: light.toggle
       target: !input remote_button_3_single_press
       data:
         brightness: 50
@@ -129,8 +129,18 @@ action:
             value: remote_button_3_single_press
   - conditions: '{{ action == ''button_4_press'' }}'
     sequence:
-    - service: homeassistant.turn_off
-      target: '{{ lights[states(current_button)] }}'
+    - service: light.toggle
+      target: !input remote_button_4_single_press
+      data:
+        brightness: 50
+    - choose:
+      - conditions: '{{ current_button != none }}'
+        sequence:
+        - service: input_text.set_value
+          target:
+            entity_id: !input current_button
+          data:
+            value: remote_button_4_single_press
   - conditions:
     - '{{ action == ''dial_rotate_left_step'' }}'
     sequence:
