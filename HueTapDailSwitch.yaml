@@ -74,6 +74,16 @@ blueprint:
           max: 2.0
           step: 0.01
           mode: slider
+    default_brightness:
+      name: Diming time
+      description: How long it takes to dim one step
+      default: 50
+      selector:
+        number:
+          min: 0
+          max: 255
+          step: 1
+          mode: slider
 mode: restart
 max_exceeded: silent
 variables:
@@ -100,7 +110,7 @@ action:
     - service: light.toggle
       target: !input remote_button_1_single_press
       data:
-        brightness: 50
+        brightness: !input default_brightness
     - choose:
       - conditions: '{{ current_button != none }}'
         sequence:
@@ -114,7 +124,7 @@ action:
     - service: light.toggle
       target: !input remote_button_2_single_press
       data:
-        brightness: 50
+        brightness: !input default_brightness
     - choose:
       - conditions: '{{ current_button != none }}'
         sequence:
@@ -128,7 +138,7 @@ action:
     - service: light.toggle
       target: !input remote_button_3_single_press
       data:
-        brightness: 50
+        brightness: !input default_brightness
     - choose:
       - conditions: '{{ current_button != none }}'
         sequence:
@@ -142,7 +152,7 @@ action:
     - service: light.toggle
       target: !input remote_button_4_single_press
       data:
-        brightness: 50
+        brightness: !input default_brightness
     - choose:
       - conditions: '{{ current_button != none }}'
         sequence:
