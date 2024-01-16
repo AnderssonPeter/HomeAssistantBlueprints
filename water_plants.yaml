@@ -51,7 +51,7 @@ action:
     device_id: !input notify_device
     title: 🌱
     message: >-
-      {% for plant in states.plant if ('moisture low' in plant.attributes.problem) %}
+      {% for plant in states.plant | selectattr('attributes.problem', 'contains', 'moisture low') | rejectattr('entity_id', 'in', exclude) %}
         {{- plant.name }} 💧{% if 'conductivity low' in plant.attributes.problem %}💩{% endif -%} {% if not loop.last %}, {% endif -%}
       {% endfor %}
 mode: single
