@@ -75,8 +75,8 @@ blueprint:
           step: 0.01
           mode: slider
     default_brightness:
-      name: Diming time
-      description: How long it takes to dim one step
+      name: Default brightness
+      description: What brightness should be used when turning on lights
       default: 50
       selector:
         number:
