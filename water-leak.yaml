@@ -11,8 +11,8 @@ blueprint:
         sensor
       selector:
         action: {}
-mode: restart
-max_exceeded: single
+mode: single
+max_exceeded: silent
 trigger:
   - event_data: {}
     event_type: state_changed
