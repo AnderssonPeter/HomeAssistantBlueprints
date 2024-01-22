@@ -1,0 +1,27 @@
+blueprint:
+  name: 'Moisture Sensor (Water leak)'
+  description: Perform action when moisture sensor turns wet
+  domain: automation
+  input:
+    actions:
+      name: Actions
+      description: |
+        Notifications or similar to be run.
+        {{ trigger.event.data.new_state.attributes.friendly_name }} will be the name of the
+        sensor
+      selector:
+        action: {}
+mode: restart
+max_exceeded: single
+trigger:
+  - event_data: {}
+    event_type: state_changed
+    platform: event
+condition:
+  - condition: template
+    value_template: '{{ trigger.event.data.new_state.attributes.device_class == "moisture" }}'
+  - condition: template
+    value_template: '{{ trigger.event.data.new_state.state == "on" }}'
+action:
+- choose: []
+  default: !input 'actions'
