@@ -43,15 +43,25 @@ condition:
       - condition: state
         entity_id: !input person
         state: home
-      - condition: template
-        value_template: "{{ states.plant | selectattr('attributes.moisture_status', 'match', 'Low') | rejectattr('entity_id', 'in', exclude) | list | count > 0 }}"
+      - condition: or
+        conditions:
+          # Trigger if we have plants that havent are low
+        - condition: template
+          value_template: "{{ states.plant | selectattr('attributes.moisture_status', 'match', 'Low') | selectattr('last_updated', '>=', now() - timedelta(days=1)) | rejectattr('entity_id', 'in', exclude) | list | count > 0 }}"
+          # Trigger if we have plants that havent recviced any updates the last 24 h
+        - condition: template
+          value_template: "{{ states.plant | selectattr('last_updated', '<', now() - timedelta(days=1)) | rejectattr('entity_id', 'in', exclude) | list | count > 0 }}"
 action:
   - domain: mobile_app
     type: notify
     device_id: !input notify_device
     title: 🌱
-    message: >-
-      {% for plant in states.plant | selectattr('attributes.moisture_status', 'match', 'Low') | rejectattr('entity_id', 'in', exclude) %}
+    message: >-      
+      {% for plant in states.plant | selectattr('attributes.moisture_status', 'match', 'Low') | selectattr('last_updated', '>=', now() - timedelta(days=1)) | rejectattr('entity_id', 'in', exclude) %}
         {{- plant.name }} 💧{% if 'Low' in plant.attributes.conductivity_status %}💩{% endif -%} {% if not loop.last %}, {% endif -%}
+      {% endfor %}
+
+      {% for plant in states.plant | selectattr('last_updated', '<', now() - timedelta(days=1)) | rejectattr('entity_id', 'in', exclude) %}
+        {{- plant.name }} ⚒️ {% if not loop.last %}, {% endif -%}
       {% endfor %}
 mode: single
