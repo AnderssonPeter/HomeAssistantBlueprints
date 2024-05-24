@@ -57,7 +57,7 @@ action:
     device_id: !input notify_device
     title: 🌱
     message: >-      
-      {% for plant in states.plant | selectattr('attributes.moisture_status', 'match', 'Low') | selectattr('last_updated', '>=', now() - timedelta(days=1)) | rejectattr('entity_id', 'in', exclude) %}
+      {% for plant in states.plant | selectattr('attributes.moisture_status', 'match', 'Low') | selectattr('last_updated', '>=', now() - timedelta(days=1)) | rejectattr('entity_id', 'in', exclude.entity_id) %}
         {{- plant.name }} 💧{% if 'Low' in plant.attributes.conductivity_status %}💩{% endif -%} {% if not loop.last %}, {% endif -%}
       {% endfor %}
 
