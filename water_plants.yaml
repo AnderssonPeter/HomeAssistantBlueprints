@@ -37,6 +37,9 @@ trigger:
   - platform: time
     at: !input time
 
+variables:
+  exclude: !input exclude
+  
 condition:
   - condition: and
     conditions:
@@ -47,13 +50,10 @@ condition:
         conditions:
           # Trigger if we have plants that havent are low
         - condition: template
-          value_template: "{{ states.plant | selectattr('attributes.moisture_status', 'match', 'Low') | selectattr('last_updated', '>=', now() - timedelta(days=1)) | rejectattr('entity_id', 'in', exclude) | list | count > 0 }}"
+          value_template: "{{ states.plant | selectattr('attributes.moisture_status', 'match', 'Low') | selectattr('last_updated', '>=', now() - timedelta(days=1)) | rejectattr('entity_id', 'in', exclude.entity_id) | list | count > 0 }}"
           # Trigger if we have plants that havent recviced any updates the last 24 h
         - condition: template
-          value_template: "{{ states.plant | selectattr('last_updated', '<', now() - timedelta(days=1)) | rejectattr('entity_id', 'in', exclude) | list | count > 0 }}"
-
-variables:
-  exclude: !input 'exclude'
+          value_template: "{{ states.plant | selectattr('last_updated', '<', now() - timedelta(days=1)) | rejectattr('entity_id', 'in', exclude.entity_id) | list | count > 0 }}"
 
 action:
   - domain: mobile_app
