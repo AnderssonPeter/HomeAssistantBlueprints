@@ -64,11 +64,7 @@ blueprint:
           unit_of_measurement: seconds
           mode: slider
 
-trigger:
-  platform: state
-  entity_id: !input motion_sensor
-  from: "off"
-  to: "on"
+trigger: !input triggers
 
 condition: !input conditions
 
