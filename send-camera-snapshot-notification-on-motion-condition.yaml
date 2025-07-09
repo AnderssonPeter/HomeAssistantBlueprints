@@ -7,13 +7,12 @@ blueprint:
     and sends a notification to your phone with the picture.
   domain: automation
   input:
-    motion_sensor:
-      name: Motion sensor
-      description: The sensor wich triggers the snapshot creation
+    triggers:
+      name: Triggers
+      default: []
       selector:
-          entity:
-            domain: binary_sensor
-            device_class: motion
+        trigger:
+
     conditions:
       name: Conditions (Optional)
       description: >
@@ -57,13 +56,13 @@ blueprint:
     delay:
       name: Delay (Optional)
       description: Wait before creating camera snapshot
-      default: ""
+      default: 0
       selector:
         number:
-            min: 0
-            max: 60
-            unit_of_measurement: seconds
-            mode: slider
+          min: 0
+          max: 60
+          unit_of_measurement: seconds
+          mode: slider
 
 trigger:
   platform: state
