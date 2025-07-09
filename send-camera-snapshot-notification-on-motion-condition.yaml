@@ -50,8 +50,8 @@ blueprint:
 
     notification_message:
       name: Notification message (Optional)
-      description: 'Default: "{{ motion_sensor_name }} detected movement!"'
-      default: "{{ motion_sensor_name }} detected movement!"
+      description: 'Default: "Motion detected movement!"'
+      default: "Motion detected movement!"
 
     delay:
       name: Delay (Optional)
@@ -69,8 +69,6 @@ trigger: !input triggers
 condition: !input conditions
 
 variables:
-  motion_sensor: !input motion_sensor
-  motion_sensor_name: "{{ states[motion_sensor].name }}"
   camera: !input camera
   notify_device: !input notify_device
   is_ios: !input is_ios
